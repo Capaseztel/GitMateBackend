@@ -38,11 +38,17 @@ public class UserController {
         return this.userService.addUser(user);
     }
 
+    @PostMapping("/login")
+    public User AuthUser(@RequestParam("uniqueName") String uniqueName,
+                         @RequestParam("password") String password) {
+        log.info("Logging in user");
+        return this.userService.loginUser(uniqueName, password);
+    }
+
     @PutMapping("/{id}")
     public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         log.info("Updating user by id");
-        user.setId(id);
-        return this.userService.addUser(user);
+        return this.userService.updateUser(id, user);
     }
 
     @DeleteMapping("/{id}")

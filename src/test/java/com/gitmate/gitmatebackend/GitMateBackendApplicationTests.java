@@ -1,11 +1,9 @@
 package com.gitmate.gitmatebackend;
 
-import com.gitmate.gitmatebackend.Repositories.PostRepo;
-import com.gitmate.gitmatebackend.Repositories.UserRepo;
 import com.gitmate.gitmatebackend.model.Post;
 import com.gitmate.gitmatebackend.model.User;
-import jakarta.transaction.Transaction;
-import jakarta.transaction.Transactional;
+import com.gitmate.gitmatebackend.service.PostService;
+import com.gitmate.gitmatebackend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,9 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GitMateBackendApplicationTests {
 
     @Autowired
-    UserRepo userRepo;
+    UserService userService;
     @Autowired
-    PostRepo postRepo;
+    PostService postService;
 
     @Test
     void addUsers() {
@@ -39,13 +37,12 @@ class GitMateBackendApplicationTests {
         for (String[] userData : users) {
             User user = User.builder()
                     .name(userData[0])
-                    .UniqueName(userData[1])
+                    .uniqueName(userData[1])
                     .email(userData[2])
                     .password("password")
                     .build();
 
-            user = userRepo.save(user);
-            oldUser = user;
+            user = userService.addUser(user);
 
             Post post = Post.builder()
                     .title("Título de prueba")
@@ -53,25 +50,20 @@ class GitMateBackendApplicationTests {
                     .author(user)
                     .build();
 
+            postService.addPost(post);
+
             if (oldUser != null) {
                 Post comment = Post.builder()
-                        .title("Comentario")
-                        .content("Contenido de comentario")
+                        .title("Título de respuesta")
+                        .content("Contenido de respuesta")
                         .author(oldUser)
+                        .parent(post)
                         .build();
 
-                comment = postRepo.save(comment);
-                post.addComment(comment);
-
+                postService.addComment(post.getId(), comment);
+                oldUser.addPost(post);
             }
-
-            postRepo.save(post);
-            user.addPost(post);
-            userRepo.save(user);
+            oldUser = user;
         }
     }
-
-
-
-
 }

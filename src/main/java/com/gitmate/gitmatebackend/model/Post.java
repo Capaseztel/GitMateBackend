@@ -32,6 +32,10 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
+    @ManyToOne
+    @Builder.Default
+    private Post parent = null;
+
     private String content;
 
     @JoinColumn(nullable = false)

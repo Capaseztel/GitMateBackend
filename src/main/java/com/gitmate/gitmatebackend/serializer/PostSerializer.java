@@ -19,8 +19,7 @@ public class PostSerializer extends StdSerializer<Post> {
 
     @Override
     public void serialize(Post post, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        if (!post.getComments().isEmpty()) {
-
+        if (post.getParent() == null) {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeNumberField("id", post.getId());
         jsonGenerator.writeStringField("title", post.getTitle());

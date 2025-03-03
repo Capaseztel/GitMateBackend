@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gitmate.gitmatebackend.serializer.UserSerializer;
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class User {
     private String name;
 
     @Column(unique = true)
-    private String UniqueName;
+    private String uniqueName;
 
     @Column(nullable = false)
     private String email;

@@ -22,8 +22,16 @@ public class UserService {
         return userRepo.findById(id).orElse(null);
     }
 
-    @Transactional
     public User addUser(User user) {
+        return userRepo.save(user);
+    }
+
+    public User loginUser(String UN, String PW) {
+        return userRepo.getUserByUniqueNameAndPassword(UN, PW);
+    }
+
+    public User updateUser(Long id, User user) {
+        user.setId(id);
         return userRepo.save(user);
     }
 
