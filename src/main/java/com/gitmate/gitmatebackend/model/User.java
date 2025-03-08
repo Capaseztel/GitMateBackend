@@ -13,11 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id", scope = User.class
-)
-@JsonSerialize(using = UserSerializer.class)
 
 @Data
 @Builder
@@ -49,6 +44,13 @@ public class User {
     @Builder.Default
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    @ToString.Exclude
+    @Builder.Default
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<Server> servers = new ArrayList<>();
 
     public void addPost(Post post) {
         this.posts.add(post);

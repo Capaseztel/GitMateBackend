@@ -57,11 +57,9 @@ class GitMateBackendApplicationTests {
                         .title("Título de respuesta")
                         .content("Contenido de respuesta")
                         .author(oldUser)
-                        .parent(post)
                         .build();
 
                 postService.addComment(post.getId(), comment);
-                oldUser.addPost(post);
             }
             oldUser = user;
         }

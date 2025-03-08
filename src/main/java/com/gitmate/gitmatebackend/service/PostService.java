@@ -27,8 +27,7 @@ public class PostService {
     @Transactional
     public Post addPost(Post post) {
         post = postRepo.save(post);
-        post.getAuthor().addPost(post);
-        userService.updateUser(post.getAuthor().getId(), post.getAuthor());
+        userService.addPost(post);
         return post;
     }
 
@@ -40,7 +39,7 @@ public class PostService {
             return null;
         }
         comment.setParent(parent);
-        comment = addPost(comment);
+        comment = this.addPost(comment);
         parent.getComments().add(comment);
         postRepo.save(parent);
         return comment;
