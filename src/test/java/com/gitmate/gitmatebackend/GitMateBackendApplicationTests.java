@@ -1,8 +1,10 @@
 package com.gitmate.gitmatebackend;
 
 import com.gitmate.gitmatebackend.model.Post;
+import com.gitmate.gitmatebackend.model.Server;
 import com.gitmate.gitmatebackend.model.User;
 import com.gitmate.gitmatebackend.service.PostService;
+import com.gitmate.gitmatebackend.service.ServerService;
 import com.gitmate.gitmatebackend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,15 @@ class GitMateBackendApplicationTests {
     UserService userService;
     @Autowired
     PostService postService;
+    @Autowired
+    ServerService serverService;
+
+
 
     @Test
     void addUsers() {
         String[][] users = {
+                {"Jose Miguel", "jose_miguel", "josemi@maricon.com"},
                 {"Carlos García", "carlos_garcia", "carlos@correo.com"},
                 {"María Fernández", "maria_fernandez", "maria@correo.com"},
                 {"Javier López", "javier_lopez", "javier@correo.com"},
@@ -59,9 +66,23 @@ class GitMateBackendApplicationTests {
                         .author(oldUser)
                         .build();
 
-                postService.addComment(post.getId(), comment);
+                comment = postService.addComment(post.getId(), comment);
+                Post comment2 = Post.builder()
+                        .title("Título de respuesta")
+                        .content("Contenido de respuesta")
+                        .author(user)
+                        .build();
+
+                postService.addComment(comment.getId(), comment2);
             }
             oldUser = user;
         }
+    }
+
+    @Test
+    void createServer() {
+        Server server = serverService.createServer("GitMate");
+        serverService.sendMessage(userService.getUserById(1L), server.getChannels().get(1), "Mensaje de prueba Front");
+
     }
 }

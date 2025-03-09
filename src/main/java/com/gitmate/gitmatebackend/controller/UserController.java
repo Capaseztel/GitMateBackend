@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/api/users")
+@RequestMapping("/v1/api/users")
 public class UserController {
 
     @Autowired
@@ -56,4 +56,5 @@ public class UserController {
         log.info("Deleting user by id");
         this.userService.deleteUser(id);
     }
+
 }

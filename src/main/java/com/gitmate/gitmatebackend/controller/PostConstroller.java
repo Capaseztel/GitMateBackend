@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/api/posts")
+@RequestMapping("/v1/api/posts")
 public class PostConstroller {
     @Autowired
     PostService postService;

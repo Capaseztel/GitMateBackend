@@ -1,6 +1,7 @@
 package com.gitmate.gitmatebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.gitmate.gitmatebackend.serializer.PostSerializer;
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id", scope = Post.class
-)
-@JsonSerialize(using = PostSerializer.class)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id", scope = Post.class
+//)
+//@JsonSerialize(using = PostSerializer.class)
 
 @Data
 @Builder
@@ -34,6 +35,8 @@ public class Post {
 
     @ManyToOne
     @Builder.Default
+    @JsonIgnore
+    @ToString.Exclude
     private Post parent = null;
 
     private String content;

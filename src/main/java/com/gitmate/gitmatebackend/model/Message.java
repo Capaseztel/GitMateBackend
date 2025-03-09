@@ -2,29 +2,22 @@ package com.gitmate.gitmatebackend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Channel {
+public class Message {
 
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String content;
 
-    @OneToMany
-    @Builder.Default
-    private List<Message> messageList = new ArrayList<>();
-
-    public void addMessage(Message message) {
-        messageList.add(message);
-    }
+    @ManyToOne()
+    private User sender;
 }
+

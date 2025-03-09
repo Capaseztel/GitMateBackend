@@ -25,11 +25,17 @@ public class PostSerializer extends StdSerializer<Post> {
         jsonGenerator.writeStringField("title", post.getTitle());
         jsonGenerator.writeStringField("content", post.getContent());
         jsonGenerator.writeFieldName("author");
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeNumberField("id", post.getAuthor().getId());
-        jsonGenerator.writeStringField("name", post.getAuthor().getName());
-        jsonGenerator.writeStringField("uniqueName", post.getAuthor().getUniqueName());
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("id", post.getAuthor().getId());
+            jsonGenerator.writeStringField("name", post.getAuthor().getName());
+            jsonGenerator.writeStringField("uniqueName", post.getAuthor().getUniqueName());
+            jsonGenerator.writeEndObject();
+        printComment(post, jsonGenerator);
         jsonGenerator.writeEndObject();
+        }
+    }
+
+    public void printComment(Post post, JsonGenerator jsonGenerator) throws IOException {
         if (!post.getComments().isEmpty()) {
             jsonGenerator.writeArrayFieldStart("comments");
             for (Post comment : post.getComments()) {
@@ -38,16 +44,16 @@ public class PostSerializer extends StdSerializer<Post> {
                 jsonGenerator.writeStringField("title", comment.getTitle());
                 jsonGenerator.writeStringField("content", comment.getContent());
                 jsonGenerator.writeFieldName("author");
-                jsonGenerator.writeStartObject();
-                jsonGenerator.writeNumberField("id", comment.getAuthor().getId());
-                jsonGenerator.writeStringField("name", comment.getAuthor().getName());
-                jsonGenerator.writeStringField("uniqueName", comment.getAuthor().getUniqueName());
-                jsonGenerator.writeEndObject();
+                    jsonGenerator.writeStartObject();
+                    jsonGenerator.writeNumberField("id", comment.getAuthor().getId());
+                    jsonGenerator.writeStringField("name", comment.getAuthor().getName());
+                    jsonGenerator.writeStringField("uniqueName", comment.getAuthor().getUniqueName());
+                    jsonGenerator.writeEndObject();
+                printComment(comment, jsonGenerator);
                 jsonGenerator.writeEndObject();
             }
             jsonGenerator.writeEndArray();
         }
-        jsonGenerator.writeEndObject();
-        }
     }
+
 }

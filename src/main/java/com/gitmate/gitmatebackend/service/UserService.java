@@ -3,7 +3,6 @@ package com.gitmate.gitmatebackend.service;
 import com.gitmate.gitmatebackend.Repositories.UserRepo;
 import com.gitmate.gitmatebackend.model.Post;
 import com.gitmate.gitmatebackend.model.User;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,14 +35,12 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    @Transactional
-    public User addPost(Post post) {
+    public void addPost(Post post) {
         User user = userRepo.findById(post.getAuthor().getId()).orElse(null);
         if (user != null) {
             user.addPost(post);
             userRepo.save(user);
         }
-        return user;
     }
 
     public void deleteUser(Long id) {

@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id", scope = User.class
+)
+@JsonSerialize(using = UserSerializer.class)
 
 @Data
 @Builder
@@ -54,6 +59,10 @@ public class User {
 
     public void addPost(Post post) {
         this.posts.add(post);
+    }
+
+    public void addServer(Server server) {
+        this.servers.add(server);
     }
 }
 

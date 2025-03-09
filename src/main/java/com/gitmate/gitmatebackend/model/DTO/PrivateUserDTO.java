@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class UserServersDTO {
-
+public class PrivateUserDTO {
     @EqualsAndHashCode.Include
     private Long id;
 
@@ -22,12 +21,7 @@ public class UserServersDTO {
 
     private String uniqueName;
 
-    private String email;
-
-    private String password;
-
     private List<Post> posts = new ArrayList<>();
 
     private List<Server> servers = new ArrayList<>();
-
 }

@@ -1,4 +1,5 @@
 package com.gitmate.gitmatebackend.model;
+import com.gitmate.gitmatebackend.Repositories.ChannelRepo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,8 @@ public class Server {
     @ManyToMany
     @Builder.Default
     private List<User> members = new ArrayList<>();
+
+    @OneToMany
+    @Builder.Default
+    private List<Channel> channels = new ArrayList<>();
 }
