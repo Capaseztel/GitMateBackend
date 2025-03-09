@@ -21,8 +21,6 @@ class GitMateBackendApplicationTests {
     @Autowired
     ServerService serverService;
 
-
-
     @Test
     void addUsers() {
         String[][] users = {
@@ -57,7 +55,7 @@ class GitMateBackendApplicationTests {
                     .author(user)
                     .build();
 
-            postService.addPost(post);
+            postService.addPost(post, post.getAuthor().getId());
 
             if (oldUser != null) {
                 Post comment = Post.builder()
@@ -66,14 +64,14 @@ class GitMateBackendApplicationTests {
                         .author(oldUser)
                         .build();
 
-                comment = postService.addComment(post.getId(), comment);
+                comment = postService.addComment(post.getId(), comment, comment.getAuthor().getId());
                 Post comment2 = Post.builder()
                         .title("Título de respuesta")
                         .content("Contenido de respuesta")
                         .author(user)
                         .build();
 
-                postService.addComment(comment.getId(), comment2);
+                postService.addComment(comment.getId(), comment2, comment2.getAuthor().getId());
             }
             oldUser = user;
         }

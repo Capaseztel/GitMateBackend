@@ -43,7 +43,8 @@ public class Post {
 
     @JoinColumn(nullable = false)
     @ManyToOne
-    private User author;
+    @Builder.Default
+    private User author = null;
 
     @OneToMany()
     @Builder.Default

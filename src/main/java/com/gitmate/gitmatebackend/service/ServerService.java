@@ -35,6 +35,13 @@ public class ServerService {
         return channelRepo.save(Channel.builder().name(channelName).build());
     }
 
+    public Channel addChannel(String channelName, Server server) {
+        Channel channel = createChannel(channelName);
+        server.addChannel(channel);
+        serverRepo.save(server);
+        return channel;
+    }
+
     public Channel getChannel(Long id) {
         return channelRepo.findById(id).orElse(null);
     }

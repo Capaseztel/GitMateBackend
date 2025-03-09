@@ -29,14 +29,14 @@ public class PostConstroller {
     }
 
     @PostMapping({"/", ""})
-    public Post addPost(@RequestBody Post post) {
+    public Post addPost(@RequestBody Post post, @RequestParam("id") Long id) {
         log.info("Adding post");
-        return postService.addPost(post);
+        return postService.addPost(post, id);
     }
 
     @PostMapping({"/{id}"})
-    public Post addComment(@PathVariable("id") Long id, @RequestBody Post comment) {
-        log.info("Adding comment to post by id = " + id.toString());
-        return postService.addComment(id, comment);
+    public Post addComment(@PathVariable("id") Long id, @RequestBody Post comment, @RequestParam("userId") Long idUser) {
+        log.info("Adding comment to post by id = {}", id.toString());
+        return postService.addComment(id, comment, idUser);
     }
 }

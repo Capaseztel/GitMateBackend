@@ -24,7 +24,8 @@ public class PostService {
     }
 
     @Transactional
-    public Post addPost(Post post) {
+    public Post addPost(Post post, Long idUser) {
+        post.setAuthor(userService.getUserById(idUser));
         post = postRepo.save(post);
         userService.addPost(post);
         return post;
@@ -32,13 +33,14 @@ public class PostService {
 
 
     @Transactional
-    public Post addComment(Long idParent, Post comment) {
+    public Post addComment(Long idParent, Post comment, Long idUser) {
+        comment.setAuthor(userService.getUserById(idUser));
         Post parent = postRepo.findById(idParent).orElse(null);
         if (parent == null) {
             return null;
         }
         comment.setParent(parent);
-        comment = this.addPost(comment);
+        comment = this.addPost(comment, comment.getAuthor().getId());
         parent.getComments().add(comment);
         postRepo.save(parent);
         return comment;

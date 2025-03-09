@@ -28,4 +28,8 @@ public class Server {
     @OneToMany
     @Builder.Default
     private List<Channel> channels = new ArrayList<>();
+
+    public void addChannel(Channel channel) {
+        channels.add(channel);
+    }
 }
