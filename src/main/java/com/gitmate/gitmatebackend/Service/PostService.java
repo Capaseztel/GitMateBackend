@@ -1,12 +1,12 @@
-package com.gitmate.gitmatebackend.service;
+package com.gitmate.gitmatebackend.Service;
 
 import com.gitmate.gitmatebackend.Repositories.PostRepo;
-import com.gitmate.gitmatebackend.model.Post;
+import com.gitmate.gitmatebackend.Domain.Post;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class PostService {
@@ -15,8 +15,8 @@ public class PostService {
     @Autowired
     UserService userService;
 
-    public List<Post> getPosts() {
-        return postRepo.findAll();
+    public Page<Post> getPosts(Pageable pageable) {
+        return postRepo.findAllPageable(pageable);
     }
 
     public Post getPostByID(Long id) {

@@ -3,7 +3,7 @@ package com.gitmate.gitmatebackend.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.gitmate.gitmatebackend.model.Post;
+import com.gitmate.gitmatebackend.Domain.Post;
 
 import java.io.IOException;
 

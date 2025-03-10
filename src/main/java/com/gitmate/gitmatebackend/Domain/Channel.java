@@ -1,4 +1,4 @@
-package com.gitmate.gitmatebackend.model;
+package com.gitmate.gitmatebackend.Domain;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,10 +1,6 @@
-package com.gitmate.gitmatebackend.model;
+package com.gitmate.gitmatebackend.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.gitmate.gitmatebackend.serializer.PostSerializer;
 import jakarta.persistence.*;
 import lombok.*;
 

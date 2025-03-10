@@ -1,13 +1,12 @@
-package com.gitmate.gitmatebackend.service;
+package com.gitmate.gitmatebackend.Service;
 
 import com.gitmate.gitmatebackend.Repositories.ChannelRepo;
 import com.gitmate.gitmatebackend.Repositories.MessagesRepo;
 import com.gitmate.gitmatebackend.Repositories.ServerRepo;
-import com.gitmate.gitmatebackend.model.Channel;
-import com.gitmate.gitmatebackend.model.Message;
-import com.gitmate.gitmatebackend.model.Server;
-import com.gitmate.gitmatebackend.model.User;
-import jakarta.transaction.Transactional;
+import com.gitmate.gitmatebackend.Domain.Channel;
+import com.gitmate.gitmatebackend.Domain.Message;
+import com.gitmate.gitmatebackend.Domain.Server;
+import com.gitmate.gitmatebackend.Domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +47,9 @@ public class ServerService {
 
     public Server getServer(Long id) {
         return serverRepo.findById(id).orElse(null);
+    }
+    public Server getServerByName(String name) {
+        return serverRepo.findByName(name);
     }
 
     public Message sendMessage(User user, Channel channel, String content) {

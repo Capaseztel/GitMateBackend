@@ -1,11 +1,14 @@
-package com.gitmate.gitmatebackend.controller;
+package com.gitmate.gitmatebackend.Controller;
 
-import com.gitmate.gitmatebackend.model.Post;
-import com.gitmate.gitmatebackend.service.PostService;
+import com.gitmate.gitmatebackend.Domain.Post;
+import com.gitmate.gitmatebackend.Service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Slf4j
@@ -17,9 +20,9 @@ public class PostConstroller {
     PostService postService;
 
     @GetMapping({"/", ""})
-    public List<Post> getPosts() {
+    public Page<Post> getPosts(Pageable pageable) {
         log.info("Getting all posts");
-        return postService.getPosts();
+        return postService.getPosts(pageable);
     }
 
     @GetMapping({"/{id}"})

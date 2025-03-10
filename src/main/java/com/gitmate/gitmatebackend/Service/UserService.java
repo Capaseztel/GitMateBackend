@@ -1,16 +1,21 @@
-package com.gitmate.gitmatebackend.service;
+package com.gitmate.gitmatebackend.Service;
 
+import com.gitmate.gitmatebackend.DTO.Requests.LoginRequest;
 import com.gitmate.gitmatebackend.Repositories.UserRepo;
-import com.gitmate.gitmatebackend.model.Post;
-import com.gitmate.gitmatebackend.model.User;
+import com.gitmate.gitmatebackend.Domain.Post;
+import com.gitmate.gitmatebackend.Domain.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     @Autowired
     UserRepo userRepo;
 
@@ -23,14 +28,17 @@ public class UserService {
     }
 
     public User addUser(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
-    public User loginUser(String UN, String PW) {
-        return userRepo.getUserByUniqueNameAndPassword(UN, PW);
+    public User loginUser(LoginRequest loginRequest) {
+        log.info("Logging user {}: {}", loginRequest.getUniqueName(), loginRequest.getPassword());
+        return encoder.matches(loginRequest.getPassword(), userRepo.getUserByUniqueName(loginRequest.getUniqueName()).getPassword()) ? userRepo.getUserByUniqueName(loginRequest.getUniqueName()) : null;
     }
 
     public User updateUser(Long id, User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setId(id);
         return userRepo.save(user);
     }

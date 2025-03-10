@@ -1,5 +1,4 @@
-package com.gitmate.gitmatebackend.model;
-import com.gitmate.gitmatebackend.Repositories.ChannelRepo;
+package com.gitmate.gitmatebackend.Domain;
 import jakarta.persistence.*;
 import lombok.*;
 

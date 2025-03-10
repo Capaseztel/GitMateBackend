@@ -1,11 +1,11 @@
 package com.gitmate.gitmatebackend;
 
-import com.gitmate.gitmatebackend.model.Post;
-import com.gitmate.gitmatebackend.model.Server;
-import com.gitmate.gitmatebackend.model.User;
-import com.gitmate.gitmatebackend.service.PostService;
-import com.gitmate.gitmatebackend.service.ServerService;
-import com.gitmate.gitmatebackend.service.UserService;
+import com.gitmate.gitmatebackend.Domain.Post;
+import com.gitmate.gitmatebackend.Domain.Server;
+import com.gitmate.gitmatebackend.Domain.User;
+import com.gitmate.gitmatebackend.Service.PostService;
+import com.gitmate.gitmatebackend.Service.ServerService;
+import com.gitmate.gitmatebackend.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +24,7 @@ class GitMateBackendApplicationTests {
     @Test
     void addUsers() {
         String[][] users = {
-                {"Jose Miguel", "jose_miguel", "josemi@maricon.com"},
+                {"Jose Miguel", "jose_miguel", "josemi@correo.com"},
                 {"Carlos García", "carlos_garcia", "carlos@correo.com"},
                 {"María Fernández", "maria_fernandez", "maria@correo.com"},
                 {"Javier López", "javier_lopez", "javier@correo.com"},

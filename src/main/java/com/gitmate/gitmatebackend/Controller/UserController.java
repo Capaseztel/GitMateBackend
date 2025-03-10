@@ -1,7 +1,8 @@
-package com.gitmate.gitmatebackend.controller;
+package com.gitmate.gitmatebackend.Controller;
 
-import com.gitmate.gitmatebackend.model.User;
-import com.gitmate.gitmatebackend.service.UserService;
+import com.gitmate.gitmatebackend.DTO.Requests.LoginRequest;
+import com.gitmate.gitmatebackend.Domain.User;
+import com.gitmate.gitmatebackend.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +40,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User AuthUser(@RequestParam("uniqueName") String uniqueName,
-                         @RequestParam("password") String password) {
+    public User AuthUser(@RequestBody LoginRequest loginRequest) {
         log.info("Logging in user");
-        return this.userService.loginUser(uniqueName, password);
+        return this.userService.loginUser(loginRequest);
     }
 
     @PutMapping("/{id}")
