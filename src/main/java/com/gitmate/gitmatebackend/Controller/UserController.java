@@ -1,12 +1,18 @@
 package com.gitmate.gitmatebackend.Controller;
 
 import com.gitmate.gitmatebackend.DTO.Requests.LoginRequest;
+import com.gitmate.gitmatebackend.DTO.Requests.ServerJoinRequest;
+import com.gitmate.gitmatebackend.DTO.Requests.UserRequestDTO;
+import com.gitmate.gitmatebackend.DTO.Responses.FullUserDTO;
+import com.gitmate.gitmatebackend.DTO.Responses.ServerListableDTO;
+import com.gitmate.gitmatebackend.Mappers.userMapper;
 import com.gitmate.gitmatebackend.Domain.User;
 import com.gitmate.gitmatebackend.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -19,9 +25,14 @@ public class UserController {
     UserService userService;
 
     @GetMapping({"", "/"})
-    public List<User> getUsers() {
+    public List<FullUserDTO> getUsers() {
         log.info("Getting all users");
-        return this.userService.getUsers();
+        List<User> users = userService.getUsers();
+        List<FullUserDTO> userDTOs = new ArrayList<>();
+        for (User user : users) {
+            userDTOs.add(userMapper.toDTO(user));
+        }
+        return userDTOs;
     }
 
     @GetMapping("/{id}")
@@ -31,23 +42,43 @@ public class UserController {
     }
 
     @PostMapping({"", "/"})
-    public User addUser(@RequestBody User user) {
+    public User addUser(@RequestBody UserRequestDTO DTO) {
         log.info("Adding user");
+        User user = userMapper.toUser(DTO);
         user.setId(null);
         System.out.println(user
         );
         return this.userService.addUser(user);
     }
 
+    @PostMapping("/join")
+    public String joinServer(@RequestBody ServerJoinRequest serverJoinRequest) {
+        log.info("Joining user to server");
+        return this.userService.joinServer(serverJoinRequest.getServerId(), serverJoinRequest.getUserId()) ? "Joined server" : "Failed to join server";
+    }
+
+    @GetMapping("/servers/{userId}")
+    public List<ServerListableDTO> getUsersByServer(@PathVariable("userId") Long userId) {
+        log.info("Getting users by server");
+        List<ServerListableDTO> servers = new ArrayList<>();
+        this.userService.getUserServers(userId).forEach(server -> servers.add(ServerListableDTO.builder().id(server.getId()).name(server.getName()).build()));
+        return servers;
+    }
+
     @PostMapping("/login")
-    public User AuthUser(@RequestBody LoginRequest loginRequest) {
+    public String AuthUser(@RequestBody LoginRequest loginRequest) {
         log.info("Logging in user");
-        return this.userService.loginUser(loginRequest);
+        if (this.userService.loginUser(loginRequest) != null) {
+            return "loged in with userID: " + this.userService.loginUser(loginRequest).getId();
+        } else {
+            return "Invalid Credentials :c";
+        }
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable("id") Long id, @RequestBody UserRequestDTO DTO) {
         log.info("Updating user by id");
+        User user = userMapper.toUser(DTO);
         return this.userService.updateUser(id, user);
     }
 

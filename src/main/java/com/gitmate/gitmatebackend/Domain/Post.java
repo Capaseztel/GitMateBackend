@@ -35,7 +35,7 @@ public class Post {
     @ToString.Exclude
     private Post parent = null;
 
-    private String content;
+    private String text;
 
     @JoinColumn(nullable = false)
     @ManyToOne

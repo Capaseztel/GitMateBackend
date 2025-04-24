@@ -1,6 +1,8 @@
 package com.gitmate.gitmatebackend.Service;
 
 import com.gitmate.gitmatebackend.DTO.Requests.LoginRequest;
+import com.gitmate.gitmatebackend.Domain.Server;
+import com.gitmate.gitmatebackend.Repositories.ServerRepo;
 import com.gitmate.gitmatebackend.Repositories.UserRepo;
 import com.gitmate.gitmatebackend.Domain.Post;
 import com.gitmate.gitmatebackend.Domain.User;
@@ -18,6 +20,8 @@ public class UserService {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    ServerRepo serverRepo;
 
     public List<User> getUsers() {
         return userRepo.findAll();
@@ -53,5 +57,26 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
+    }
+
+    public boolean joinServer(Long serverId, Long userId) {
+        User user = userRepo.findById(userId).orElse(null);
+        Server server = serverRepo.findById(serverId).orElse(null);
+        if (user != null && server != null) {
+            user.addServer(server);
+            server.addMember(user);
+            serverRepo.save(server);
+            userRepo.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Server> getUserServers(Long userId) {
+        User user = userRepo.findById(userId).orElse(null);
+        if (user != null) {
+            return user.getServers();
+        }
+        return null;
     }
 }

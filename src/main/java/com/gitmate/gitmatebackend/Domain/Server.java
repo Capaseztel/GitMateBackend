@@ -31,4 +31,8 @@ public class Server {
     public void addChannel(Channel channel) {
         channels.add(channel);
     }
+
+    public void addMember(User user) {
+        members.add(user);
+    }
 }

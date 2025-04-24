@@ -1,10 +1,6 @@
 package com.gitmate.gitmatebackend.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.gitmate.gitmatebackend.serializer.UserSerializer;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -13,11 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id", scope = User.class
-)
-@JsonSerialize(using = UserSerializer.class)
 
 @Data
 @Builder
@@ -38,9 +29,11 @@ public class User {
     private String uniqueName;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @OneToMany(mappedBy = "author")

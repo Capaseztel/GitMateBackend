@@ -81,6 +81,5 @@ class GitMateBackendApplicationTests {
     void createServer() {
         Server server = serverService.createServer("GitMate");
         serverService.sendMessage(userService.getUserById(1L), server.getChannels().get(1), "Mensaje de prueba Front");
-
     }
 }
