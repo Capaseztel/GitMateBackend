@@ -38,7 +38,14 @@ public class UserService {
 
     public User loginUser(LoginRequest loginRequest) {
         log.info("Logging user {}: {}", loginRequest.getUniqueName(), loginRequest.getPassword());
-        return encoder.matches(loginRequest.getPassword(), userRepo.getUserByUniqueName(loginRequest.getUniqueName()).getPassword()) ? userRepo.getUserByUniqueName(loginRequest.getUniqueName()) : null;
+        if (userRepo.getUserByUniqueName(loginRequest.getUniqueName()) == null) {
+            log.error("User not found");
+            return null;
+        }
+        return
+                encoder.matches(loginRequest.getPassword(), userRepo.getUserByUniqueName(loginRequest.getUniqueName()).getPassword())
+                ? userRepo.getUserByUniqueName(loginRequest.getUniqueName())
+                : null;
     }
 
     public User updateUser(Long id, User user) {

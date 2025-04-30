@@ -8,8 +8,13 @@ import com.gitmate.gitmatebackend.DTO.Responses.ServerListableDTO;
 import com.gitmate.gitmatebackend.Mappers.userMapper;
 import com.gitmate.gitmatebackend.Domain.User;
 import com.gitmate.gitmatebackend.Service.UserService;
+import com.gitmate.gitmatebackend.Util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +28,12 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private AuthenticationManager AuthManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping({"", "/"})
     public List<FullUserDTO> getUsers() {
@@ -68,11 +79,17 @@ public class UserController {
     @PostMapping("/login")
     public String AuthUser(@RequestBody LoginRequest loginRequest) {
         log.info("Logging in user");
-        if (this.userService.loginUser(loginRequest) != null) {
-            return "loged in with userID: " + this.userService.loginUser(loginRequest).getId();
+        User user = this.userService.loginUser(loginRequest);
+        if (user != null) {
+            return jwtUtil.generateToken(user.getUniqueName());
         } else {
             return "Invalid Credentials :c";
         }
+    }
+
+    @GetMapping("/auth")
+    public String AuthJWT(@RequestHeader("Authorization") String token) {
+        return jwtUtil.isTokenValid(token) ? "Valid token : " + jwtUtil.getUsernameFromToken(token) : "Invalid token";
     }
 
     @PutMapping("/{id}")
